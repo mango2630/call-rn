@@ -1,0 +1,125 @@
+import React, { useState, useContext } from 'react';
+import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { UserInfoContext } from '../../context';
+const LOGO_EN_SRC = require('../../assets/logo-en.png');
+const CALL_SVG_SRC = require('../../assets/call.png');
+const GROUP_CALL_SVG_SRC = require('../../assets/group-call.png');
+
+export default function Login(): React.JSX.Element {
+  const navigation = useNavigation();
+  const { userInfo } = useContext(UserInfoContext);
+  const [callType, setCallType] = useState('video');
+
+  const goCall = () => {
+    navigation.navigate('Call', { callType: callType });
+  };
+  const goGroupCall = () => {
+    navigation.navigate('GroupCall');
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text> userID: { userInfo.userID }</Text>
+      <Image
+        style={styles.img_logo}
+        source={LOGO_EN_SRC}
+      />
+      <View style={styles.segmented_box}>
+        <TouchableOpacity
+          style={[callType === 'video' && styles.segmented_content_active ]}
+          onPress={() => setCallType('video')}
+        >
+          <Text style={[callType === 'video' ? styles.segmented_text_active : styles.segmented_text ]}> 视频通话 </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[callType === 'audio' && styles.segmented_content_active ]}
+          onPress={() => setCallType('audio')}
+        >
+          <Text style={[callType === 'audio' ? styles.segmented_text_active : styles.segmented_text]}> 语音通话 </Text>
+        </TouchableOpacity>
+      </View>
+      <View style={{
+        marginTop: 200,
+        height: 150,
+        justifyContent: 'space-between',
+      }}>
+        <TouchableOpacity
+          style={{
+            backgroundColor: '#0070f0',
+            width: '100%',
+            height: 60,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 10,
+          }}
+          onPress={goCall}
+        >
+          <Image style={{ width: 20, height: 24 }} source={CALL_SVG_SRC} />
+          <Text style={{color: '#fff'}}> 单人通话 </Text>
+        </TouchableOpacity>
+        <TouchableOpacity 
+          style={{
+            backgroundColor: '#0070f0',
+            width: '100%',
+            height: 60,
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 10,
+          }}
+          onPress={goGroupCall}
+        >
+          <Image style={{ width: 20, height: 24 }} source={GROUP_CALL_SVG_SRC} />
+          <Text style={{color: '#fff'}}> 群组通话 </Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    width: '100%',
+    height: '100%',
+    padding: 20,
+    backgroundColor: '#fff',
+    alignContent: 'center',
+  },
+  img_logo: {
+    width: 250,
+    height: 50,
+    marginTop: 100,
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  segmented_box: {
+    width: 170,
+    height: 36,
+    paddingLeft: 5,
+    paddingRight: 5,
+    borderRadius: 24,
+    backgroundColor: '#EAEEF6',
+    alignItems: 'center',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginTop: 20,
+  },
+  segmented_content_active: {
+    width: 80,
+    height: 30,
+    borderRadius: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: '#fff',
+  },
+  segmented_text_active: {
+    color: '#1C66E5',
+  },
+  segmented_text: {
+    color: '#8F9AB2'
+  },
+});
