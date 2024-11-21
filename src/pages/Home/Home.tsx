@@ -6,7 +6,7 @@ const LOGO_EN_SRC = require('../../assets/logo-en.png');
 const CALL_SVG_SRC = require('../../assets/call.png');
 const GROUP_CALL_SVG_SRC = require('../../assets/group-call.png');
 
-export default function Login(): React.JSX.Element {
+export default function Home(): React.JSX.Element {
   const navigation = useNavigation();
   const { userInfo } = useContext(UserInfoContext);
   const [callType, setCallType] = useState('video');
@@ -15,7 +15,7 @@ export default function Login(): React.JSX.Element {
     navigation.navigate('Call', { callType: callType });
   };
   const goGroupCall = () => {
-    navigation.navigate('GroupCall');
+    navigation.navigate('GroupCall', { callType: callType });
   };
 
   return (
@@ -45,34 +45,18 @@ export default function Login(): React.JSX.Element {
         justifyContent: 'space-between',
       }}>
         <TouchableOpacity
-          style={{
-            backgroundColor: '#0070f0',
-            width: '100%',
-            height: 60,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: 10,
-          }}
+          style={styles.btn_box}
           onPress={goCall}
         >
-          <Image style={{ width: 20, height: 24 }} source={CALL_SVG_SRC} />
-          <Text style={{color: '#fff'}}> 单人通话 </Text>
+          <Image style={styles.btn_box_icon} source={CALL_SVG_SRC} />
+          <Text style={styles.btn_box_text}> 单人通话 </Text>
         </TouchableOpacity>
         <TouchableOpacity 
-          style={{
-            backgroundColor: '#0070f0',
-            width: '100%',
-            height: 60,
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: 10,
-          }}
+          style={styles.btn_box}
           onPress={goGroupCall}
         >
-          <Image style={{ width: 20, height: 24 }} source={GROUP_CALL_SVG_SRC} />
-          <Text style={{color: '#fff'}}> 群组通话 </Text>
+          <Image style={styles.btn_box_icon} source={GROUP_CALL_SVG_SRC} />
+          <Text style={styles.btn_box_text}> 群组通话 </Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -122,4 +106,20 @@ const styles = StyleSheet.create({
   segmented_text: {
     color: '#8F9AB2'
   },
+  btn_box: {
+    backgroundColor: '#0070f0',
+    width: '100%',
+    height: 60,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 10,
+  },
+  btn_box_icon: {
+    width: 20,
+    height: 24,
+  },
+  btn_box_text: {
+    color: '#fff'
+  }
 });
